@@ -9,3 +9,7 @@ Automation of the zone creation relies on accurate data from a reliable source. 
 GEODATA TOPO 250K Shapefile:
 
 <https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/64058>
+
+## Example Protection Zone Ouput
+
+![example](assets/sydneyAirportExample.png)
