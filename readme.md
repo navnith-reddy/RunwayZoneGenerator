@@ -13,3 +13,7 @@ GEODATA TOPO 250K Shapefile:
 ## Example Protection Zone Ouput
 
 ![example](assets/sydneyAirportExample.png)
+
+## Faulty Bisected Runway
+
+![example](assets/brokenExample.png)
