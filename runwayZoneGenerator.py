@@ -1,30 +1,36 @@
 # ----------------------------------------------------------------
-# ----------------- RUNWAY PROTECT ZONE LIBRARY ------------------
+# -------------- RUNWAY PROTECTION ZONE LIBRARY ------------------
 # ----------------------------------------------------------------
 # Australian Communications Media Authority
 # Navnith Reddy, November 2022
 
-# The GEODATA library provides helper functions which extract
-# and format data from the Geoscience Australia Topographic
-# database.
+# The Runway Protection Zone library provides helper functions 
+# for the automation of protection zone creation. The library
+# also contains functions which process GEODATA TOPO 250K
+# Series 3 data.
 
 import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
-from numpy import arctan2, random, sin, cos, degrees
-import math
 from shapely.geometry import LineString
 from shapely import affinity
+
+# Pre-emptive Deprecation Warning as Shapely moves to 2.0 
 import warnings
 from shapely.errors import ShapelyDeprecationWarning
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
 
 # FUNCTION NAMING CONVENTION:
-# -> 'get' functions download assets from Geoscience Australia website
+# -> 'get' functions download assets
 # -> 'build' functions create assets based on downloaded assets
 # -> 'read' functions are build functions that return variables
 
 def buildRunways():
+    
+    """
+    Builds runway dataframe using centrelines and airport shapefiles.
+    Saves dataframe as csv and shapefile. Does not return output.
+    """
 
     # Read centreline dataset and filter for runways centrelines
     centrelines = gpd.read_file("TOPO_250k/Vector_data/Cartography/cartographiclines.shp")
@@ -56,11 +62,35 @@ def buildRunways():
 
 def readRunways():
     
+    """
+    Reads runway shapefile, must be run after buildRunways().
+    
+    Returns:
+        DataFrame: Dataframe containing runway data
+    """
+    
     # Read built runway dataset
     return gpd.read_file("runways/runways.shp")
 
 
 def perpendicular(lineString, len, side):
+    
+    """
+    Creates perpendicular line at the end of input
+    lineSting with length len. Different orientation 
+    can be specificed.
+    
+    Parameters:
+        LineString: linestring of two coordinate points
+        len: integer, length of perpendicular line
+        side: string, 'top' or 'bottom'
+
+    Raises:
+        ValueError: invalid side value
+
+    Returns:
+        _type_: _description_
+    """
     
     left = lineString.parallel_offset(len, 'left')
     right = lineString.parallel_offset(len, 'right')
@@ -79,9 +109,19 @@ def perpendicular(lineString, len, side):
     
     else:
         
-        raise ValueError("Invalid value for side")
+        raise ValueError("Invalid value for side, try 'top' or 'bottom")
 
 def zoneConstructor (lineString):
+    
+    """
+    Creates two-sided protection zones for runways.
+    
+    Parameters:
+        lineString: Runway centreline LineString
+
+    Returns:
+        DataFrame: Dataframe containing protection zone polygons
+    """
     
     # Zone Dimensions
     b_len = 2890
@@ -119,6 +159,20 @@ def zoneConstructor (lineString):
 
 def asymmetricZones (lineString, side):
     
+    """
+    Creates one-sided protection zones for runways.
+    
+    Parameters:
+        lineString: Runway centreline
+        side: Integer, 1 or 0
+    
+    Raises:
+        ValueError: Invalid 'side' value
+
+    Returns:
+        DataFrame: Protection zone polygons
+    """
+    
     b_len = 2890
     c_len = 1760
     d1_len = 5310
@@ -155,7 +209,7 @@ def asymmetricZones (lineString, side):
         
     else:
 
-        raise ValueError("Invalid side value")
+        raise ValueError("Invalid side value, try 1 or 0")
 
     exclusionZone = exclusionZone.difference(top)
     name.append('Exclusion Zone')
