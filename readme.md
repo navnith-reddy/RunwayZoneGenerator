@@ -16,4 +16,6 @@ GEODATA TOPO 250K Shapefile:
 
 ## Faulty Bisected Runway
 
+Issues with database accuracy can manifest into improper zones being drawn.
+
 ![example](assets/brokenExample.png)
