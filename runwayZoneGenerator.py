@@ -11,6 +11,8 @@
 import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
+from numpy import arctan2, random, sin, cos, degrees
+import math
 from shapely.geometry import LineString
 from shapely import affinity
 import warnings
@@ -47,7 +49,7 @@ def buildRunways():
     runways = gpd.sjoin(centrelines, airports, how='inner', predicate='intersects')
 
     # Tidy and save output dataset
-    runways = runways[['NAME' , 'geometry']]
+    runways = runways[['NAME', 'geometry']]
     runways.reset_index(drop=True, inplace=True)
     runways.to_file('runways/runways.shp')
     runways.to_csv('runways.csv', index=False)
