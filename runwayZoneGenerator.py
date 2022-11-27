@@ -13,6 +13,8 @@ import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
 from shapely.geometry import LineString
+from shapely.geometry import MultiLineString
+from shapely import ops
 from shapely import affinity
 
 # Pre-emptive Deprecation Warning as Shapely moves to 2.0 
@@ -226,6 +228,29 @@ def asymmetricZones (lineString, side):
 
 def makeCentreline (lat1, lon1, lat2, lon2):
     
+    """
+    Creates centreline with given coordinates 
+    which is compatible with other functions.
+
+    Returns:
+        centreline : LineString of runway centreline
+    """
+    
     centreline = LineString([lat1, lon1],[lat2, lon2])
     
     return centreline
+
+def weldRunways (runway1, runway2):
+    
+    """
+    Merges two runways, required for GEODATA
+    TOPO 250k Series 3 dataset.
+
+    Returns:
+        welded : LineString of two two runways
+    """
+    
+    welded = MultiLineString([runway1, runway2])
+    welded = ops.linemerge(welded)
+    
+    return welded
