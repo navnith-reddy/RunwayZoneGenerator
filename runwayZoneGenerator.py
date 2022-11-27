@@ -223,3 +223,9 @@ def asymmetricZones (lineString, side):
     gdf = gpd.GeoDataFrame(df, crs="EPSG:3857")
     
     return gdf
+
+def makeCentreline (lat1, lon1, lat2, lon2):
+    
+    centreline = LineString([lat1, lon1],[lat2, lon2])
+    
+    return centreline
