@@ -126,10 +126,10 @@ def zoneConstructor (lineString):
     """
     
     # Zone Dimensions
-    b_len = 2890
-    c_len = 1760
-    d1_len = 5310
-    d2_len = 680
+    b_len = 3110
+    c_len = 1980
+    d1_len = 5090
+    d2_len = 840*2
 
     name = []
     geometry = []
@@ -175,10 +175,10 @@ def asymmetricZones (lineString, side):
         DataFrame: Protection zone polygons
     """
     
-    b_len = 2890
-    c_len = 1760
-    d1_len = 5310
-    d2_len = 680
+    b_len = 3110
+    c_len = 1980
+    d1_len = 5090
+    d2_len = 840*2
 
     name = []
     geometry = []
