@@ -113,7 +113,7 @@ def perpendicular(lineString, len, side):
         
         raise ValueError("Invalid value for side, try 'top' or 'bottom")
 
-def zoneConstructor (lineString):
+def zoneConstructor (lineString, opFreq):
     
     """
     Creates two-sided protection zones for runways.
@@ -125,11 +125,37 @@ def zoneConstructor (lineString):
         DataFrame: Dataframe containing protection zone polygons
     """
     
-    # Zone Dimensions
-    b_len = 3110
-    c_len = 1980
-    d1_len = 5090
-    d2_len = 840*2
+    if opFreq == '3950':
+        
+        b_len = 3110
+        c_len = 1980
+        d1_len = 5090
+        d2_len = 840*2
+        
+    elif opFreq == '3900':
+        
+        b_len = 3000
+        c_len = 1870
+        d1_len = 5200
+        d2_len = 680*2
+        
+    elif opFreq == '3850':
+        
+        b_len = 2890
+        c_len = 1760
+        d1_len = 5310
+        d2_len = 560*2
+    
+    elif opFreq == 'remote':
+        
+        b_len = 3230
+        c_len = 2100
+        d1_len = 4970
+        d2_len = 1030*2
+        
+    else:
+        
+        raise ValueError("Invalid opFreq value. Try: '3850', '3900', '3950' or 'remote'")
 
     name = []
     geometry = []
@@ -159,7 +185,7 @@ def zoneConstructor (lineString):
     
     return gdf
 
-def asymmetricZones (lineString, side):
+def asymmetricZones (lineString, side, opFreq):
     
     """
     Creates one-sided protection zones for runways.
@@ -175,10 +201,37 @@ def asymmetricZones (lineString, side):
         DataFrame: Protection zone polygons
     """
     
-    b_len = 3110
-    c_len = 1980
-    d1_len = 5090
-    d2_len = 840*2
+    if opFreq == '3950':
+        
+        b_len = 3110
+        c_len = 1980
+        d1_len = 5090
+        d2_len = 840*2
+        
+    elif opFreq == '3900':
+        
+        b_len = 3000
+        c_len = 1870
+        d1_len = 5200
+        d2_len = 680*2
+        
+    elif opFreq == '3850':
+        
+        b_len = 2890
+        c_len = 1760
+        d1_len = 5310
+        d2_len = 560*2
+    
+    elif opFreq == 'remote':
+        
+        b_len = 3230
+        c_len = 2100
+        d1_len = 4970
+        d2_len = 1030*2
+        
+    else:
+        
+        raise ValueError("Invalid opFreq value. Try: '3850', '3900', '3950' or 'remote'")
 
     name = []
     geometry = []
